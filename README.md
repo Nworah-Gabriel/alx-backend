@@ -9,7 +9,3 @@ This repository contains programs for the ALX Back-End curriculum at Holberton S
 | Project                                                                        | Description                                          |
 | :----------------------------------------------------------------------------- | :--------------------------------------------------- |
 | [0x00 Pagination](./0x00-pagination)                                           | Deletion-resilient hypermedia pagination             |
-
-## Author
-
-- **Ojok Simon Peter** - [afandojok](https:///github.com/jokmonsimon)
