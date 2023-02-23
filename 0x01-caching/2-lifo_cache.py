@@ -1,61 +1,45 @@
-##!/usr/bin/python3
-"""A FIFO caching algorithm module"""
-from baseclass import BaseCaching
+#!/usr/bin/python3
+''' LIFO Caching: Create a class LIFOCache that inherits from BaseCaching
+                  and is a caching system
+'''
+
+BaseCaching = __import__('base_caching').BaseCaching
+
 
 class LIFOCache(BaseCaching):
-    """ A baic caching algorithm that implements the LIFO principle"""
+    ''' A LIFO Cache.
+        Inherits all behaviors from BaseCaching except, upon any attempt to
+        add an entry to the cache when it is at max capacity (as specified by
+        BaseCaching.MAX_ITEMS), it discards the newest entry to accommodate for
+        the new one.
+        Attributes:
+          __init__ - method that initializes class instance
+          put - method that adds a key/value pair to cache
+          get - method that retrieves a key/value pair from cache '''
 
-    storage_list = []
-
-    def count(self):
-        """Counts key pairs present in the caching dictionary"""
-        value = 0
-        for i in self.cache_data.keys():
-            value += 1
-        return value
-
+    def __init__(self):
+        ''' Initialize class instance. '''
+        super().__init__()
+        self.keys = []
 
     def put(self, key, item):
-        """ Adds an item to the caching dictionary"""
-        if key == None or item == None:
-            return
-        number = self.count()
-
-        if key in self.cache_data.keys():
+        ''' Add key/value pair to cache data.
+            If cache is at max capacity (specified by BaseCaching.MAX_ITEMS),
+            discard newest entry in cache to accommodate new entry. '''
+        if key is not None and item is not None:
             self.cache_data[key] = item
-            self.storage_list.append(key)
-            return
-        
-        if number >= BaseCaching.MAX_ITEMS:
-            last_data = self.storage_list.pop(-1)
-            del self.cache_data[last_data]
-            print('DISCARD: {}'.format(last_data))
-        
-        self.storage_list.append(key)
-        self.cache_data[key] = item
-    
+            if key not in self.keys:
+                self.keys.append(key)
+            else:
+                self.keys.append(self.keys.pop(self.keys.index(key)))
+            if len(self.keys) > BaseCaching.MAX_ITEMS:
+                discard = self.keys.pop(-2)
+                del self.cache_data[discard]
+                print('DISCARD: {:s}'.format(discard))
 
-    
     def get(self, key):
-        """ Gets an item from the caching dictionary"""
-        if key == None or key not in self.cache_data.keys():
-            return None
-        return self.cache_data[key]
-
-
-#TESTING TIME
-if __name__ == '__main__':
-    my_cache = LIFOCache()
-    my_cache.put("A", "Hello")
-    my_cache.put("B", "World")
-    my_cache.put("C", "Holberton")
-    my_cache.put("D", "School")
-    my_cache.print_cache()
-    my_cache.put("E", "Battery")
-    my_cache.print_cache()
-    my_cache.put("C", "Street")
-    my_cache.print_cache()
-    my_cache.put("F", "Mission")
-    my_cache.print_cache()
-    my_cache.put("G", "San Fransisco")
-    my_cache.print_cache()
+        ''' Return value stored in `key` key of cache.
+            If key is None or does not exist in cache, return None. '''
+        if key is not None and key in self.cache_data:
+            return self.cache_data[key]
+        return None

@@ -1,38 +1,28 @@
 #!/usr/bin/python3
-from baseclass import BaseCaching
+''' Basic Dictionary: Create a class BasicCache that inherits from BaseCaching
+                      and is a caching system
+'''
+
+BaseCaching = __import__('base_caching').BaseCaching
+
 
 class BasicCache(BaseCaching):
-    """A blueprint for basic caching algorithms"""
+    ''' A basic cache.
+        Inherits from class BaseCaching.
+        Attributes:
+          put - method that adds a key/value pair to cache
+          get - method that retrieves a key/value pair from cache
+    '''
 
     def put(self, key, item):
-        """ Adds an item to the caching dictionary"""
-        if key == None or item == None:
-            return
-        self.cache_data[key] = item
+        ''' Add key/value pair to cache.
+        If either `key` or `item` is None, do nothing. '''
+        if key is not None and item is not None:
+            self.cache_data[key] = item
 
     def get(self, key):
-        """ Gets an item from the caching dictionary"""
-        if key == None or key not in self.cache_data.keys():
-            return None
-        return self.cache_data[key]
-
-
-
-#TESTING TIME
-if __name__ == '__main__':
-    my_cache = BasicCache()
-    my_cache.print_cache()
-    my_cache.put("A", "Hello")
-    my_cache.put("B", "World")
-    my_cache.put("C", "Holberton")
-    my_cache.print_cache()
-    print(my_cache.get("A"))
-    print(my_cache.get("B"))
-    print(my_cache.get("C"))
-    print(my_cache.get("D"))
-    my_cache.print_cache()
-    my_cache.put("D", "School")
-    my_cache.put("E", "Battery")
-    my_cache.put("A", "Street")
-    my_cache.print_cache()
-    print(my_cache.get("A"))
+        ''' Return value stored in `key` of cache.
+        If key is None or does not exist in cache, return None. '''
+        if key is not None and key in self.cache_data:
+            return self.cache_data[key]
+        return None
